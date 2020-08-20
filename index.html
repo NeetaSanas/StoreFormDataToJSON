@@ -1,0 +1,537 @@
+<html>
+<head>
+ 
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+      
+    <title>Data</title>
+     
+    <!-- include material design CSS -->
+    <!--<link rel="stylesheet" href="libs/css/materialize.min.css" />
+    <link rel="stylesheet" href="libs/css/RedRoof.css" />
+	
+	 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+	-->
+	
+	
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.16.0/umd/popper.min.js"></script>
+  <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+	<link href="//maxcdn.bootstrapcdn.com/font-awesome/4.1.0/css/font-awesome.min.css" rel="stylesheet">
+	 <link href="css/materialize.css" type="text/css" rel="stylesheet" media="screen,projection"/>
+  <link href="css/style.css" type="text/css" rel="stylesheet" media="screen,projection"/>
+     
+    <!-- include material design icons -->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet" />
+	
+	<style>
+		#employeee {
+		  font-family: "Trebuchet MS", Arial, Helvetica, sans-serif;
+		  border-collapse: collapse;
+		  width: 100%;
+		  overflow: auto;
+		}
+
+		#employeee td, #employeee th {
+		  border: 1px solid #ddd;
+		  padding: 8px;
+		}
+		#employeee tr:nth-child(even){background-color: #fff;}
+		#employeee tr:nth-child(odd){background-color: #fff;}
+		#employeee th {
+		  padding-top: 12px;
+		  padding-bottom: 12px;
+		  text-align: left;
+		  background-color: #36B6D6;
+		  color: Black;
+		}
+		
+		.modal.open{
+			width: 1000px;
+			max-height: 620px;
+			height: 620px;
+			top: 0px !important;
+		}
+		#modal-data-title{
+			padding:5px;
+			border-bottom:1px solid #eee;
+			background-color: blue;
+			color:#fff;
+			width: 100%;
+			margin-top: 0px;
+		}
+		ul.tabs {
+			display : flex;
+			border-top-left-radius: 5px;
+			border-top-right-radius: 5px;
+		}
+		.tabs .indicator{
+			height:0px;
+		}
+		.tabs .tab a:hover {
+            color:#000;
+        }
+		li.tab {
+		   flex-basis : 33.33%;
+		   border-top : blue solid 3px;
+		   border-radius: 5px;
+		}
+		.tabs{
+			background-color:blue;
+			
+		}
+		.tabs .tab a {
+			
+			text-transform:none;
+			color:#fff;
+			font-size: 12px;
+			padding:0px;
+			font-weight: 900;
+		}
+		.tabs .tab a.active {
+            background-color:#f3f3f3;
+            color:blue;
+			border-top-left-radius: 5px;
+			border-top-right-radius: 5px;
+        }
+		
+		#btn-create-user {
+			float: right;
+		}
+		.FormClass{
+			padding:10px;
+		}
+		
+		[type="checkbox"]:not(:checked), [type="checkbox"]:checked {
+			opacity: 1;
+		}
+		.pagination li.active {
+			background-color: blue;
+		}
+		input[type=text]:not(.browser-default){
+			background-color: #fff;
+			border-radius:4px;
+		}
+		.fa{
+			background-color: #36B6D6;
+			border: none;
+		}
+	</style>
+</head>
+<body>
+
+<div class="container" ng-app="myApp" ng-controller="testCtrl">
+	
+	<h1 class="header center orange-text">Welcome</h1>
+      <div class="row center">
+        <h5 class="header col s12 light">Koru Ux Design</h5>
+      </div>
+      <div class="row center">
+       
+		<!-- button for open modal -->
+		<a class="waves-effect waves-light btn modal-trigger btn-large blue" title="data" 
+		href="#modal-data" ng-click="openModal()">Get Started</a>
+      </div>
+
+    <div class="row">
+        <div class="col s12" ng-cloak>
+			<div id="modal-data" class="modal">
+			<h6 id="modal-data-title"></h6>
+				<a class="btn btn-floating btn-flat modal-action modal-close" style="top:-4px; right:3px; position:absolute;"title="close"><i class="small material-icons" style="color:white;">close</i></a>
+				<div class="modal-content">
+					<div class="row ">
+						<ul id="tabs_swipe" class="tabs">
+							<li class="tab col-2"><a href="#immunization">Immunization Alerts</a></li>
+							<li class="tab col-2"><a href="#lab">Lab Alerts</a></li>
+							<li class="tab col-2"><a href="#di">DI Alerts</a></li>
+							<li class="tab col-2"><a href="#procedure">Procedure Alerts</a></li>
+							<li class="tab col-2"><a href="#rx" class="active">RX Specific Alerts</a></li>
+							<li class="tab col-2"><a href="#dx">DX Specific Alerts</a></li>
+							<li class="tab col-2"><a href="#patient">Patient Specific Alerts</a></li>
+						</ul>
+						
+						<div id="immunization" class="col s12"></div>
+						<div id="lab" class="col s12"></div>
+						<div id="di" class="col s12"></div>
+						<div id="procedure" class="col s12"></div>
+						<div id="rx" class="col s12">
+							
+							<div class="row">
+							
+								<div class="col s7">
+								<h6> RX Specific Alerts</h6>
+								
+								<div class="row">
+									<div class="input-field col s10" id="search">
+									<i class="material-icons prefix">search</i> <input id="icon_prefix"
+										type="text" placeholder="  Search" ng-model="search" class="form-control"> 
+									</div>
+									<div class="input-field col s2">
+										<button id="btn-delete" class="btn margin-bottom-1em blue"
+												data-ng-click="Delete();">Delete
+										</button>
+										<!--<button id="btn-create-user" class="btn margin-bottom-1em blue"
+												data-ng-click="createUser(model);">New
+										</button>-->
+									</div>
+								</div>
+									<table id="employeee">
+										<tr>
+											<th class="width-30-pct"> <label>
+												<input type="checkbox" ng-model="IsAllChecked" ng-change="CheckUncheckAll()"/>-</label></th>
+											
+											
+											<th class="width-30-pct">Name<button class="fa fa-sort" data-ng-click="sort('Name');"></button></th>
+											<th class="width-30-pct">Description<button class="fa fa-fw fa-sort" data-ng-click="sort('Name');"></button></th>
+											<th class="width-30-pct">Web Reference<button class="fa fa-fw fa-sort" data-ng-click="sort('Name');"></button></th>	
+
+										</tr>
+											
+										<tr dir-paginate="l in list | filter:search | itemsPerPage:10" > <!--ng-repeat="l in list"-->
+											<td><label>
+											<input type="checkbox" ng-model="l.Selected" ng-change="CheckUncheckHeader()" />-
+										</label></td>
+											
+											<td>{{ l.Name }}</td>
+											<td>{{ l.Description }}</td>
+											<td>{{ l.Reference }}</td>
+										</tr>
+											
+									</table><br>
+									<dir-pagination-controls max-size="10" direction-links="true"
+						boundary-links="true"> </dir-pagination-controls>
+						
+								</div>
+								
+								<div class="FormClass col s5" style="border-left:2px solid #D3EFF5; background-color:#CAECF4;">
+									<h6 align="center">Add New</h6>
+									<form name="userForm" novalidate method="post" action="./gfg.php" style="padding:10px;">
+										<div class="row">
+											<input data-ng-model="name" type="text" id="name" name="name"
+												placeholder="  Name" required /> 
+											
+										</div>
+										
+										<div class="row">
+											<input id="description" placeholder="  Description" type="text"
+											data-ng-model="description" name="description" required />											
+										</div>	
+										<div class="row">
+											<input data-ng-model="reference" type="text" id="reference" name="reference"
+											placeholder="  Web Reference" required /> 
+										</div>
+										
+										<div class="row">
+											<label>
+											&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+											<input type="checkbox" />&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+											Apply alerts to all the Medications in the </br> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+											same class</label>
+										</div>
+											
+											
+										<div class="input-field col s12"  style="align:right">
+											<button id="btn-create-user" class="btn margin-bottom-1em blue"
+												data-ng-click="createUser();"
+												ng-disabled="userForm.$invalid">Save
+											</button>
+
+										</div>
+											
+										
+									</form>
+								
+								<table id="employeee">
+										<tr>
+											<th class="width-30-pct">Test</th>
+											<th class="width-30-pct">Type</th>
+											<th class="width-30-pct">Frequency</th>	
+											<th style="width-30-pct">Reference</th>
+										</tr>
+											
+										<tr ng-repeat="l in list1"> <!--"-->
+											
+											<td>{{ l.Test }}</td>
+											<td>{{ l.Type }}</td>
+											<td>{{ l.Frequency }}</td>
+											<td>{{l.Reference}}</td>
+										</tr>
+											
+									</table>
+								
+								</div>
+								
+								
+								
+							</div>
+						</div>
+						<div id="dx" class="col s12"></div>
+						<div id="patient" class="col s12"></div>
+					
+					</div><!--row-->					
+				</div>
+			</div>
+ 
+		</div> 
+    </div> 
+	
+</div> <!-- end container --> 
+ 
+<!-- include jquery -->
+<script type="text/javascript" src="libs/js/jquery.min.js"></script>
+ 
+<!-- material design js -->
+<script src="libs/js/materialize.min.js"></script>
+ 
+<!-- include angular js -->
+<script src="libs/js/angular.min.js"></script>
+<script src="libs/js/dirPagination.js"></script>
+
+<script type="text/javascript">
+// angular js codes will be here
+ 
+var app = angular.module('myApp', ['angularUtils.directives.dirPagination']);
+app.controller('testCtrl', function($scope, $http) {
+
+	//First table
+		var request = {
+                method: 'get',
+                url: './data.json',
+                dataType: 'json',
+                contentType: "application/json"
+        };
+		 $scope.IsAllChecked = false;
+
+        $scope.list = new Array;
+
+        $http(request)
+            .success(function (jsonData) {
+                $scope.list = jsonData;
+                //$scope.list = $scope.dataArray;
+            })
+            .error(function () {
+				//console.log("error ali aahe");
+			});
+			
+			
+	//Second table
+	var request = {
+                method: 'get',
+                url: './data1.json',
+                dataType: 'json',
+                contentType: "application/json"
+        };
+
+        $scope.list1 = new Array;
+
+        $http(request)
+            .success(function (jsonData) {
+                $scope.list1 = jsonData;
+                //$scope.list = $scope.dataArray;
+            })
+            .error(function () {
+				console.log("error ali aahe");
+			});
+
+	$('#search').show();
+	$('#table').show();
+	
+	$scope.openModal = function(){
+		$scope.clearForm();
+		console.log("in open modal");
+		//$('#modal-data').openModal({ dismissible: false});
+		$('#modal-data-title').text("Alerts");
+	}
+	
+	$scope.CheckUncheckHeader = function () {
+		console.log("HEADER");
+        $scope.IsAllChecked = false;
+        for (var i = 0; i < $scope.list.length; i++) {
+		    $scope.list[i].ID=i+1;
+            if (!$scope.list[i].Selected) {
+                $scope.IsAllChecked = false;
+				$scope.list[i].Selected=false;
+                //break;
+            }
+        };
+    };
+
+    $scope.CheckUncheckHeader();
+	
+	$scope.CheckUncheckAll = function () {
+		console.log("ALL");
+		
+        for (var i = 0; i < $scope.list.length; i++) {
+			
+            $scope.list[i].Selected = $scope.IsAllChecked;
+			console.log($scope.list[i].ID);
+        }
+    };
+	
+	$scope.Delete = function () {
+                var selected = new Array();
+                for (var i = 0; i < $scope.list.length; i++) {
+                    if ($scope.list[i].Selected) {
+                        selected.push(i);
+                    }
+                }
+                for (var i = selected.length - 1; i >= 0; i--) {
+                    $scope.list.splice(selected[i], 1);
+                }
+				
+				console.log($scope.list);
+				
+				var request = {
+					method: 'post',
+					url: './gfg.php',
+					data: $scope.list,
+					contentType: "application/json"
+				};
+				$http(request)
+				.success(function (jsonData) {
+					$scope.response = jsonData;
+					console.log($scope.response);
+				})
+				.error(function () {
+					console.log("error ali aahe");
+				});
+	}
+	
+	$scope.sort = function (variable) {
+				//console.log($scope.list[0].Name);
+                for (var i = 0; i < $scope.list.length-1; i++) {
+					
+					for (var j = i+1; j < $scope.list.length; j++) {
+						
+						if(variable=='Name'){
+							console.log(i);
+							if($scope.list[i].Name.toLowerCase() > $scope.list[j].Name.toLowerCase()){
+								//console.log("G");
+								let name=$scope.list[i].Name;
+								let des=$scope.list[i].Description;
+								let ref=$scope.list[i].Reference;
+								
+								$scope.list[i].Name=$scope.list[j].Name;
+								$scope.list[i].Description=$scope.list[j].Description;
+								$scope.list[i].Reference=$scope.list[j].Reference;
+								
+								$scope.list[j].Name=name;
+								$scope.list[j].Description=des;
+								$scope.list[j].Reference=ref;
+							}
+							
+						}	
+						
+						if(variable=='Description'){
+							console.log(i);
+							if($scope.list[i].Description.toLowerCase() > $scope.list[j].Description.toLowerCase()){
+								//console.log("G");
+								let name=$scope.list[i].Name;
+								let des=$scope.list[i].Description;
+								let ref=$scope.list[i].Reference;
+								
+								$scope.list[i].Name=$scope.list[j].Name;
+								$scope.list[i].Description=$scope.list[j].Description;
+								$scope.list[i].Reference=$scope.list[j].Reference;
+								
+								$scope.list[j].Name=name;
+								$scope.list[j].Description=des;
+								$scope.list[j].Reference=ref;
+							}
+							
+						}	
+						
+						if(variable=='Reference'){
+							console.log(i);
+							if($scope.list[i].Reference.toLowerCase() > $scope.list[j].Reference.toLowerCase()){
+								//console.log("G");
+								let name=$scope.list[i].Name;
+								let des=$scope.list[i].Description;
+								let ref=$scope.list[i].Reference;
+								
+								$scope.list[i].Name=$scope.list[j].Name;
+								$scope.list[i].Description=$scope.list[j].Description;
+								$scope.list[i].Reference=$scope.list[j].Reference;
+								
+								$scope.list[j].Name=name;
+								$scope.list[j].Description=des;
+								$scope.list[j].Reference=ref;
+							}
+							
+						}	
+ 	
+					}	
+                }
+				
+                
+    };
+	
+	$scope.clearForm = function(){
+	   $scope.name = "";
+	   $scope.description = "";
+	   $scope.reference = "";     
+}
+	
+	$scope.createUser = function(){
+		 Materialize.toast("User added", 5000);
+		 var request = {
+                method: 'get',
+                url: './data.json',
+                dataType: 'json',
+                contentType: "application/json"
+        };
+
+        $scope.list = new Array;
+
+        $http(request)
+            .success(function (jsonData) {
+                $scope.list = jsonData;
+            })
+            .error(function () {
+				//console.log("error ali aahe");
+			});
+	}
+	
+
+});//controller
+angular.module('myApp').filter('pagination', function(){
+    return function(input, start) {
+        if (!input || !input.length) { return; }
+        start = +start; //parse to int
+        return input.slice(start);
+    }
+});
+
+app.directive('stringToNumber', function() {
+	  return {
+	    require: 'ngModel',
+	    link: function(scope, element, attrs, ngModel) {
+	      ngModel.$parsers.push(function(value) {
+	        return '' + value;
+	      });
+	      ngModel.$formatters.push(function(value) {
+	        return parseFloat(value);
+	      });
+	    }
+	  };
+	});
+	
+$(document).ready(function(){
+	
+	$(".button-collapse").sideNav();
+    // initialize modal
+    $('.modal-trigger').leanModal();
+
+});
+
+
+</script>
+<script type="text/javascript">
+	if ($('#tabs_swipe').length) {
+      $('#tabs_swipe').tabs({ 'swipeable': true });
+    }
+</script>
+ 
+</body>
+</html>
